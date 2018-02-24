@@ -21,25 +21,28 @@ public class AbbyyClient {
     private static final String AUTHORIZATION_BASIC = "Basic";
     private static final String AUTHORIZATION_BEARER = "Bearer";
 
+    private String authorizationKey;
+
 
     private static final HttpHost lingvolive= new HttpHost(HOST, PORT, "https");
 
-    public AbbyyClient() {
+    public AbbyyClient(String key) throws IOException {
         this.httpClient = HttpClients.createDefault();
+        authorize(key);
     }
 
-    public String getAuthorizeKey(String key) throws IOException {
+    private void authorize(String key) throws IOException {
         HttpPost post = new HttpPost(AUTHENTICATE);
         post.addHeader(AUTHORIZATION_HEADER, AUTHORIZATION_BASIC + " " + key);
-        return EntityUtils.toString(httpClient.execute(lingvolive, post).getEntity());
+        authorizationKey = EntityUtils.toString(httpClient.execute(lingvolive, post).getEntity());
     }
 
-    public String getTranslationResponse(String word, int source, int target, String key) throws IOException {
+    public String getTranslationResponse(String word, int source, int target) throws IOException {
         HttpGet get = new HttpGet(TRANSLATION +
                 "?text=" + URLEncoder.encode(word, "UTF-8")
                 + "&srcLang=" + source
                 + "&dstLang=" + target);
-        get.addHeader(AUTHORIZATION_HEADER, AUTHORIZATION_BEARER + " " + key);
+        get.addHeader(AUTHORIZATION_HEADER, AUTHORIZATION_BEARER + " " + authorizationKey);
         return EntityUtils.toString(httpClient.execute(lingvolive, get).getEntity());
     }
 }

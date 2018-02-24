@@ -8,31 +8,23 @@ public class Abbyy {
     private Language sourceLang;
     private Language targetLang;
     private Dictionary dictionary;
-    private String apiKey;
-    private String authKey;
 
-    public Abbyy(String apiKey, AbbyyClient client, Dictionary dictionary) {
-        this.apiKey = apiKey;
+    public Abbyy(AbbyyClient client, Dictionary dictionary) {
         this.client = client;
         this.dictionary = dictionary;
     }
 
-    public Abbyy(String apiKey, AbbyyClient client, Language sourceLang, Language targetLang) {
-        this.apiKey = apiKey;
+    public Abbyy(AbbyyClient client, Language sourceLang, Language targetLang) {
         this.client = client;
         this.sourceLang = sourceLang;
         this.targetLang = targetLang;
-    }
-
-    public void authorize() throws IOException {
-        this.authKey = client.getAuthorizeKey(apiKey);
     }
 
     public String getTranslatePage(String word) throws IOException {
         //todo check code, use http utils, must return list of articles
         Integer source = dictionary != null ? dictionary.getSourceLang().getCode() : sourceLang.getCode();
         Integer target = dictionary != null ? dictionary.getTargetLang().getCode() : targetLang.getCode();
-        return client.getTranslationResponse(word, source, target, authKey);
+        return client.getTranslationResponse(word, source, target);
     }
 
     public String getArticle(){

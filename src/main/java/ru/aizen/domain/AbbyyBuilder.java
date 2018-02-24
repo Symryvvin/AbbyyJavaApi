@@ -1,23 +1,21 @@
 package ru.aizen.domain;
 
 public final class AbbyyBuilder {
-    private String apiKey;
-    private AbbyyClient httpClient;
+    private AbbyyClient client;
     private Dictionary dictionary;
     private Language sourceLang;
     private Language targetLang;
 
 
-    public AbbyyBuilder(String apiKey) {
-        this.apiKey = apiKey;
+    private AbbyyBuilder() {
     }
 
-    public static AbbyyBuilder create(String apiKey) {
-        return new AbbyyBuilder(apiKey);
+    public static AbbyyBuilder create() {
+        return new AbbyyBuilder();
     }
 
-    public AbbyyBuilder setHttpClient(AbbyyClient httpClient) {
-        this.httpClient = httpClient;
+    public AbbyyBuilder setClient(AbbyyClient client) {
+        this.client = client;
         return this;
     }
 
@@ -49,8 +47,8 @@ public final class AbbyyBuilder {
 
     public Abbyy build() {
         if (dictionary != null)
-            return new Abbyy(apiKey, httpClient,
+            return new Abbyy(client,
                     dictionary);
-        return new Abbyy(apiKey, httpClient, sourceLang, targetLang);
+        return new Abbyy(client, sourceLang, targetLang);
     }
 }
