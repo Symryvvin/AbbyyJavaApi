@@ -1,10 +1,8 @@
 package ru.aizen.domain;
 
-import org.apache.http.client.HttpClient;
-
 public final class AbbyyBuilder {
     private String apiKey;
-    private HttpClient httpClient;
+    private AbbyyClient httpClient;
     private Dictionary dictionary;
     private Language sourceLang;
     private Language targetLang;
@@ -18,7 +16,7 @@ public final class AbbyyBuilder {
         return new AbbyyBuilder(apiKey);
     }
 
-    public AbbyyBuilder setHttpClient(HttpClient httpClient) {
+    public AbbyyBuilder setHttpClient(AbbyyClient httpClient) {
         this.httpClient = httpClient;
         return this;
     }
