@@ -25,7 +25,7 @@ public class Abbyy {
 
     public String getTranslatePage(String word) throws IOException, URISyntaxException {
         //todo check code, use http utils, must return list of articles
-        return client.getTranslationResponse(word, source.getCode(), destination.getCode());
+        return client.getTranslation(word, source.getCode(), destination.getCode());
     }
 
     public String getArticle() {
