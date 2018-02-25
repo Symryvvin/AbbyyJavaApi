@@ -4,17 +4,21 @@ package ru.aizen.domain;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.aizen.domain.entity.article.Article;
+import ru.aizen.domain.translate.Dictionary;
 import ru.aizen.domain.translate.Language;
 import ru.aizen.domain.translate.Translation;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Abbyy {
     private AbbyyClient client;
     private Language source;
     private Language destination;
+    private List<Dictionary> availableDictionaries;
 
     private ObjectMapper mapper;
 
@@ -23,6 +27,13 @@ public class Abbyy {
         this.source = translation.getSource();
         this.destination = translation.getDestination();
         this.mapper = new ObjectMapper();
+        initDictionaries();
+    }
+
+    private void initDictionaries(){
+        availableDictionaries = Arrays.stream(Dictionary.values())
+                .filter(item -> item.getSource() == source && item.getDestination() == destination)
+                .collect(Collectors.toList());
     }
 
     public List<Article> getTranslatePage(String word) throws IOException, URISyntaxException {
@@ -37,6 +48,10 @@ public class Abbyy {
         //todo  specified article is not found
         //todo must return article
         return null;
+    }
+
+    public List<Dictionary> getAvailableDictionaries() {
+        return availableDictionaries;
     }
 
     public Language getSource() {
