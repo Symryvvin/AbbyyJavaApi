@@ -1,6 +1,6 @@
 package ru.aizen.domain;
 
-public enum Dictionary {
+public enum Dictionary implements Translation{
     ACCOUNTING_EN_RU("Accounting (En-Ru)", Language.EN, Language.RU),
     ACTIVE_FR_RU("Active (Fr-Ru)", Language.FR, Language.RU),
     AMERICAN_ENGLISH_EN_RU("AmericanEnglish (En-Ru)", Language.EN, Language.RU),

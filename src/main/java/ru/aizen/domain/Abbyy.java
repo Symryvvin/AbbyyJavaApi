@@ -2,32 +2,33 @@ package ru.aizen.domain;
 
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class Abbyy {
     private AbbyyClient client;
-    private Language sourceLang;
-    private Language targetLang;
-    private Dictionary dictionary;
+    private Language source;
+    private Language destination;
 
-    public Abbyy(AbbyyClient client, Dictionary dictionary) {
+    public Abbyy(AbbyyClient client, Translation translation) {
         this.client = client;
-        this.dictionary = dictionary;
+        if (translation instanceof Dictionary) {
+            Dictionary dictionary = (Dictionary) translation;
+            this.source = dictionary.getSourceLang();
+            this.destination = dictionary.getTargetLang();
+        }
+        if (translation instanceof TranslateDirection) {
+            TranslateDirection direction = (TranslateDirection) translation;
+            this.source = direction.getSource();
+            this.destination = direction.getDestination();
+        }
     }
 
-    public Abbyy(AbbyyClient client, Language sourceLang, Language targetLang) {
-        this.client = client;
-        this.sourceLang = sourceLang;
-        this.targetLang = targetLang;
-    }
-
-    public String getTranslatePage(String word) throws IOException {
+    public String getTranslatePage(String word) throws IOException, URISyntaxException {
         //todo check code, use http utils, must return list of articles
-        Integer source = dictionary != null ? dictionary.getSourceLang().getCode() : sourceLang.getCode();
-        Integer target = dictionary != null ? dictionary.getTargetLang().getCode() : targetLang.getCode();
-        return client.getTranslationResponse(word, source, target);
+        return client.getTranslationResponse(word, source.getCode(), destination.getCode());
     }
 
-    public String getArticle(){
+    public String getArticle() {
         //todo  dictionaries not found for specified direction
         //todo  specified dictionary is not found
         //todo  specified article is not found
@@ -35,21 +36,11 @@ public class Abbyy {
         return null;
     }
 
-    public Dictionary getDictionary() {
-        return dictionary;
+    public Language getSource() {
+        return source;
     }
 
-    public Language getSourceLang() {
-        if (dictionary != null)
-            return dictionary.getSourceLang();
-        else
-            return sourceLang;
-    }
-
-    public Language getTargetLang() {
-        if (dictionary != null)
-            return dictionary.getTargetLang();
-        else
-            return targetLang;
+    public Language getDestination() {
+        return destination;
     }
 }

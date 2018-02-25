@@ -4,11 +4,13 @@ import org.apache.http.HttpHost;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
-import java.net.URLEncoder;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class AbbyyClient {
     private HttpClient httpClient;
@@ -18,8 +20,8 @@ public class AbbyyClient {
     private static final String AUTHENTICATE = "/api/v1.1/authenticate";
     private static final String TRANSLATION = "/api/v1/Translation";
     private static final String AUTHORIZATION_HEADER = "Authorization";
-    private static final String AUTHORIZATION_BASIC = "Basic";
-    private static final String AUTHORIZATION_BEARER = "Bearer";
+    private static final String AUTHORIZATION_BASIC = "Basic ";
+    private static final String AUTHORIZATION_BEARER = "Bearer ";
 
     private String authorizationKey;
 
@@ -33,16 +35,18 @@ public class AbbyyClient {
 
     private void authorize(String key) throws IOException {
         HttpPost post = new HttpPost(AUTHENTICATE);
-        post.addHeader(AUTHORIZATION_HEADER, AUTHORIZATION_BASIC + " " + key);
+        post.addHeader(AUTHORIZATION_HEADER, AUTHORIZATION_BASIC + key);
         authorizationKey = EntityUtils.toString(httpClient.execute(lingvolive, post).getEntity());
     }
 
-    public String getTranslationResponse(String word, int source, int target) throws IOException {
-        HttpGet get = new HttpGet(TRANSLATION +
-                "?text=" + URLEncoder.encode(word, "UTF-8")
-                + "&srcLang=" + source
-                + "&dstLang=" + target);
-        get.addHeader(AUTHORIZATION_HEADER, AUTHORIZATION_BEARER + " " + authorizationKey);
+    public String getTranslationResponse(String text, Integer source, Integer destination) throws IOException, URISyntaxException {
+        URI uri = new URIBuilder(TRANSLATION)
+                .addParameter("text", text)
+                .addParameter("srcLang", source.toString())
+                .addParameter("dstLang", destination.toString())
+                .build();
+        HttpGet get = new HttpGet(uri);
+        get.addHeader(AUTHORIZATION_HEADER, AUTHORIZATION_BEARER + authorizationKey);
         return EntityUtils.toString(httpClient.execute(lingvolive, get).getEntity());
     }
 }
