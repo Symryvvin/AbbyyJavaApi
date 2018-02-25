@@ -1,6 +1,6 @@
 package ru.aizen.domain.translate;
 
-public enum Dictionary implements Translation{
+public enum Dictionary {
     ACCOUNTING_EN_RU("Accounting (En-Ru)", Language.EN, Language.RU),
     ACTIVE_FR_RU("Active (Fr-Ru)", Language.FR, Language.RU),
     AMERICAN_ENGLISH_EN_RU("AmericanEnglish (En-Ru)", Language.EN, Language.RU),
@@ -23,7 +23,7 @@ public enum Dictionary implements Translation{
     CHEMISTRY_DE_RU("Chemistry (De-Ru)", Language.DE, Language.RU),
     CHEMISTRY_FR_RU("Chemistry (Fr-Ru)", Language.FR, Language.RU),
     COMMUNICATION_DE_RU("Communication (De-Ru)", Language.DE, Language.RU),
-    COMPUTERS_LANG_RU_RU("ComputerSlang (Ru-Ru)", Language.RU, Language.RU),
+    COMPUTER_SLANG_RU_RU("ComputerSlang (Ru-Ru)", Language.RU, Language.RU),
     DAHL_RU_RU("Dahl (Ru-Ru)", Language.RU, Language.RU),
     ECONOMICS_RU_DE("Economics (Ru-De)", Language.RU, Language.DE),
     ECONOMICS_DE_RU("Economics (De-Ru)", Language.DE, Language.RU),
@@ -136,25 +136,25 @@ public enum Dictionary implements Translation{
     URBAN_DICTIONARY_RU_RU("UrbanDictionary (Ru-Ru)", Language.RU, Language.RU);
 
     private String name;
-    private Language sourceLang;
-    private Language targetLang;
+    private Language source;
+    private Language destination;
 
 
-    Dictionary(String name, Language sourceLang, Language targetLang) {
+    Dictionary(String name, Language source, Language destination) {
         this.name = name;
-        this.sourceLang = sourceLang;
-        this.targetLang = targetLang;
+        this.source = source;
+        this.destination = destination;
     }
 
     public String getName() {
         return name;
     }
 
-    public Language getSourceLang() {
-        return sourceLang;
+    public Language getSource() {
+        return source;
     }
 
-    public Language getTargetLang() {
-        return targetLang;
+    public Language getDestination() {
+        return destination;
     }
 }

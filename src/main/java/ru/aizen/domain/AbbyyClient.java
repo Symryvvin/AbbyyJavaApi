@@ -12,6 +12,7 @@ import ru.aizen.domain.translate.Dictionary;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.charset.Charset;
 
 public class AbbyyClient {
     private HttpClient httpClient;
@@ -57,11 +58,13 @@ public class AbbyyClient {
 
     public String getTranslation(String text, Integer source, Integer destination, Boolean isCaseSensitive) throws IOException, URISyntaxException {
         URI uri = new URIBuilder(TRANSLATION)
+                .setCharset(Charset.forName("cp1251"))
                 .addParameter("text", text)
                 .addParameter("srcLang", source.toString())
                 .addParameter("dstLang", destination.toString())
                 .addParameter("isCaseSensitive", isCaseSensitive.toString())
                 .build();
+        System.out.println(lingvolive.toHostString() + uri);
         return executeGet(uri);
     }
 
