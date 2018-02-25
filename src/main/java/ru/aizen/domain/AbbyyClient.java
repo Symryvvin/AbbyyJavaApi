@@ -125,7 +125,7 @@ public class AbbyyClient {
     }
 
     public String getSound(Dictionary dictionary, String fileName) throws IOException, URISyntaxException {
-        URI uri = new URIBuilder(WORD_FORM)
+        URI uri = new URIBuilder(SOUND)
                 .addParameter("dictionaryName", dictionary.getName())
                 .addParameter("fileName", fileName)
                 .build();
