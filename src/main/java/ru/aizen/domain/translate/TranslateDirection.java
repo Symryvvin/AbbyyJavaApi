@@ -1,4 +1,4 @@
-package ru.aizen.domain;
+package ru.aizen.domain.translate;
 
 public enum TranslateDirection implements Translation{
     EN_RU (Language.EN, Language.RU),

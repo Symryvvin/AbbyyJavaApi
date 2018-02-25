@@ -1,5 +1,9 @@
 package ru.aizen.domain;
 
+import ru.aizen.domain.translate.Dictionary;
+import ru.aizen.domain.translate.TranslateDirection;
+import ru.aizen.domain.translate.Translation;
+
 public final class AbbyyBuilder {
     private AbbyyClient client;
     private Dictionary dictionary;

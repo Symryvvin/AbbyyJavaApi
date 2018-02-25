@@ -1,4 +1,4 @@
-package ru.aizen.domain;
+package ru.aizen.domain.translate;
 
 public enum Language {
     EN(1033),

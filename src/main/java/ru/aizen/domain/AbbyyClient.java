@@ -7,6 +7,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import ru.aizen.domain.translate.Dictionary;
 
 import java.io.IOException;
 import java.net.URI;
@@ -133,6 +134,7 @@ public class AbbyyClient {
     }
 
     private String executeGet(URI uri) throws IOException {
+        //todo check code
         HttpGet get = new HttpGet(uri);
         get.addHeader(AUTHORIZATION_HEADER, AUTHORIZATION_BEARER + authorizationKey);
         return EntityUtils.toString(httpClient.execute(lingvolive, get).getEntity());

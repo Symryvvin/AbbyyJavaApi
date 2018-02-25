@@ -1,13 +1,24 @@
 package ru.aizen.domain;
 
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import ru.aizen.domain.entity.article.Article;
+import ru.aizen.domain.translate.Dictionary;
+import ru.aizen.domain.translate.Language;
+import ru.aizen.domain.translate.TranslateDirection;
+import ru.aizen.domain.translate.Translation;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.List;
 
 public class Abbyy {
     private AbbyyClient client;
     private Language source;
     private Language destination;
+
+    private ObjectMapper mapper;
 
     public Abbyy(AbbyyClient client, Translation translation) {
         this.client = client;
@@ -21,11 +32,13 @@ public class Abbyy {
             this.source = direction.getSource();
             this.destination = direction.getDestination();
         }
+        this.mapper = new ObjectMapper();
     }
 
-    public String getTranslatePage(String word) throws IOException, URISyntaxException {
-        //todo check code, use http utils, must return list of articles
-        return client.getTranslation(word, source.getCode(), destination.getCode());
+    public List<Article> getTranslatePage(String word) throws IOException, URISyntaxException {
+        return mapper.readValue(client.getTranslation(word, source.getCode(), destination.getCode()),
+                new TypeReference<List<Article>>() {
+                });
     }
 
     public String getArticle() {
